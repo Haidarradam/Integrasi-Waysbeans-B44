@@ -1,12 +1,9 @@
 import React from "react";
-
 import { useState, useEffect } from "react";
-
 import { Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Tombol from "../assets/image/Thumbnail.png";
-
 import { useMutation } from "react-query";
 import { API } from "../config/api";
 
@@ -21,13 +18,12 @@ export default function UpdateProduct() {
     description: "",
     price: "",
     stock: "",
-  }); //Store product data
+  });   
+  //Store product data
 
   async function getDataUpdate() {
     const responseProduct = await API.get("/product/" + id);
-    setImageUrl(
-      `http://localhost:5000/uploads/` + responseProduct.data.data.photo
-    );
+    setImageUrl(responseProduct.data.data.photo);
 
     setForm({
       ...formUpdateProduct,
@@ -82,9 +78,11 @@ export default function UpdateProduct() {
       formData.set("price", formUpdateProduct.price);
       formData.set("stock", formUpdateProduct.stock);
 
+      // await disini berfungsi untuk menunggu sampai promise tersebut selesai dan mengembalikkan hasilnya
       const response = await API.patch("/product/" + id, formData, config);
       console.log(response.data);
 
+      navigate('/listproduct');
       Swal.fire({
         position: "center",
         icon: "success",
@@ -237,7 +235,7 @@ export default function UpdateProduct() {
           </form>
         </div>
         <div>
-          <img src={imageUrl} width="390px" height="430px" alt="imageadmin" />
+          <img src={imageUrl} width="390px" height="430px" alt="" />
         </div>
       </div>
     </div>
