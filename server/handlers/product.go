@@ -32,11 +32,6 @@ func (h *handlerProduct) FindProducts(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Status: http.StatusBadRequest, Message: err.Error()})
 	}
 
-	// cloudinary
-	for i, p := range products {
-		imagePath := os.Getenv("PATH_FILE") + p.Photo
-		products[i].Photo = imagePath
-	}
 	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Data: convertResponseProducts(products)})
 }
 
