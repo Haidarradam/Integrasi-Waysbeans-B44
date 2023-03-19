@@ -20,6 +20,7 @@ import ModalRegister from "./ModalRegister";
 import { UserContext } from "../context/userContext";
 import { API, setAuthToken } from "../config/api";
 import Swal from "sweetalert2";
+import { useQuery } from "react-query";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function Header() {
   const [isLoading, setIsLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  // const [totalQty, setTotalQty] = useState(0);
+  const [UserCarts, SetUserCarts] = useState([]);
 
   useEffect(() => {
     // Redirect Auth but just when isLoading is false
@@ -82,6 +83,15 @@ export default function Header() {
     handleClose(true);
     setShowRegister(true);
   };
+
+  useQuery("usercartsCache", async () => {
+    try {
+      const response = await API.get("/carts");
+      SetUserCarts(response.data.data);
+    } catch (error) {
+      return;
+    }
+  });
 
   const logout = () => {
     dispatch({
@@ -138,20 +148,15 @@ export default function Header() {
                 </Nav>
               ) : (
                 <Nav className="ms-auto">
-                  <NavLink
-                    to="/cart"
-                    className="position-relative d-inline-flex align-items-center"
-                  >
+                  <NavLink to="/cart" className="position-relative d-inline-flex align-items-center">
                     <div className="me-3">
                       <img src={Cart} width="35px" height="32.26px" alt="" />
                     </div>
-                    <Badge
-                      pill
-                      bg="danger"
-                      style={{ position: "absolute", top: 20, right: 5 }}
-                    >
-                      {/* {totalQty} */}
+                    {UserCarts.filter((cart) => cart.user_id === state.user.id).length > 0 ? (
+                    <Badge pill bg="danger" style={{ position: "absolute", top: 20, right: 5 }}>
+                    {UserCarts.filter((cart) => cart.user_id === state.user.id).length}
                     </Badge>
+                    ) : null}
                   </NavLink>
 
                   <NavDropdown align="end"
