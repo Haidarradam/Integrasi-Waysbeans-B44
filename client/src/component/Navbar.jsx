@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import ModalLogin from "./ModalLogin";
 import Profile from "../assets/image/Ellipse.png";
+import Admin from "../assets/image/Admin.png";
 import Cart from "../assets/image/Keranjang.png";
 import User from "../assets/image/User.png";
 import Logout from "../assets/image/Logout.png";
@@ -111,7 +112,7 @@ export default function Header() {
                 <Nav className="ms-auto gap-3">
                   <NavDropdown align="end"
                     title={
-                      <img src={Profile} width="40px" height="40px" alt="" />
+                      <img src={Admin} width="40px" height="40px" alt="" />
                     }
                   >
                     <NavDropdown.Item href="/addproduct">
