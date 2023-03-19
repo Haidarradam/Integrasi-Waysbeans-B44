@@ -216,11 +216,17 @@ func (h *handlerTransaction) Notification(c echo.Context) error {
 			h.TransactionRepository.UpdateTransaction("pending", order_id)
 		} else if fraudStatus == "accept" {
 			SendMail("success", transaction)
-			h.TransactionRepository.UpdateTransaction("success", order_id)
+			_, err := h.TransactionRepository.UpdateTransaction("success", order_id)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	} else if transactionStatus == "settlement" {
 		SendMail("success", transaction)
-		h.TransactionRepository.UpdateTransaction("success", order_id)
+		_, err := h.TransactionRepository.UpdateTransaction("success", order_id)
+		if err != nil {
+			fmt.Println(err)
+		}
 	} else if transactionStatus == "deny" {
 		h.TransactionRepository.UpdateTransaction("failed", order_id)
 	} else if transactionStatus == "cancel" || transactionStatus == "expire" {
