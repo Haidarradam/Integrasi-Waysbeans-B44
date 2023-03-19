@@ -37,7 +37,7 @@ func (h *handlerProduct) FindProducts(c echo.Context) error {
 		imagePath := os.Getenv("PATH_FILE") + p.Photo
 		products[i].Photo = imagePath
 	}
-	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Data: products})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Data: convertResponseProducts(products)})
 }
 
 func (h *handlerProduct) GetProduct(c echo.Context) error {
@@ -48,8 +48,7 @@ func (h *handlerProduct) GetProduct(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Status: http.StatusBadRequest, Message: err.Error()})
 	}
-	// cloudinary
-	product.Photo = os.Getenv("PATH_FILE") + product.Photo
+
 	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Message: "Product data successfully obtained", Data: convertResponseProduct(product)})
 }
 
@@ -231,4 +230,14 @@ func convertResponseProduct(u models.Product) productdto.ProductResponse {
 		Photo:       u.Photo,
 		Stock:       u.Stock,
 	}
+}
+
+func convertResponseProducts(products []models.Product) []productdto.ProductResponse {
+	var responseProducts []productdto.ProductResponse
+
+	for _, product := range products {
+		responseProducts = append(responseProducts, convertResponseProduct(product))
+	}
+
+	return responseProducts
 }
