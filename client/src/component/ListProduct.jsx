@@ -100,7 +100,7 @@ export default function ListProduct() {
                   <td className="pt-4 pb-4 ps-2 pe-2">{index + 1}</td>
                   <td className="pt-4 pb-4 ps-5 pe-5">
                     <img
-                      src={`http://localhost:5000/uploads/${item.photo}`}
+                      src={item.photo}
                       alt={item.name}
                       style={{ width: "80px" }}
                     ></img>

@@ -65,7 +65,7 @@ export default function Details(props) {
         <Container className="d-flex justify-content-center mt-5">
           <div className="d-flex gap-5 mb-5 justify-content-center">
             <img
-              src={`http://localhost:5000/uploads/${Product.photo}`}
+              src={Product.photo}
               width="400px"
               height="523px"
               alt={Product.name}

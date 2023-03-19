@@ -34,7 +34,7 @@ export default function Card() {
                 >
                   <div>
                     <img
-                      src={`http://localhost:5000/uploads/${item.photo}`}
+                      src={item.photo}
                       width={"100%"}
                       alt=""
                     />

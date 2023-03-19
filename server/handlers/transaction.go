@@ -193,7 +193,6 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Data: snapResp})
 
-	// return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Message: "Transaction data created successfully", Data: convertResponseTransaction(dataTransactions)})
 }
 
 func (h *handlerTransaction) Notification(c echo.Context) error {

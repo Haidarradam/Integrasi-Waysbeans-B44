@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -10,6 +11,8 @@ import (
 	"waysbeans/models"
 	"waysbeans/repositories"
 
+	"github.com/cloudinary/cloudinary-go"
+	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -29,11 +32,12 @@ func (h *handlerProduct) FindProducts(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Status: http.StatusBadRequest, Message: err.Error()})
 	}
 
-	if len(products) > 0 {
-		return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Message: "Data for all products was successfully obtained", Data: convertResponseProducts(products)})
-	} else {
-		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Status: http.StatusBadRequest, Message: "No record found"})
+	// cloudinary
+	for i, p := range products {
+		imagePath := os.Getenv("PATH_FILE") + p.Photo
+		products[i].Photo = imagePath
 	}
+	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Data: products})
 }
 
 func (h *handlerProduct) GetProduct(c echo.Context) error {
@@ -44,7 +48,8 @@ func (h *handlerProduct) GetProduct(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Status: http.StatusBadRequest, Message: err.Error()})
 	}
-
+	// cloudinary
+	product.Photo = os.Getenv("PATH_FILE") + product.Photo
 	return c.JSON(http.StatusOK, dto.SuccessResult{Status: http.StatusOK, Message: "Product data successfully obtained", Data: convertResponseProduct(product)})
 }
 
@@ -52,8 +57,8 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 	userLogin := c.Get("userLogin")
 	userAdmin := userLogin.(jwt.MapClaims)["is_admin"].(bool)
 	if userAdmin {
-		dataFile := c.Get("dataFile").(string)
-		fmt.Println("this is data file", dataFile)
+		filepath := c.Get("dataFile").(string)
+		fmt.Println("this is data file", filepath)
 
 		price, _ := strconv.Atoi(c.FormValue("price"))
 		stock, _ := strconv.Atoi(c.FormValue("stock"))
@@ -62,7 +67,7 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 			Name:        c.FormValue("name"),
 			Description: c.FormValue("description"),
 			Price:       price,
-			Photo:       dataFile,
+			Photo:       filepath,
 			Stock:       stock,
 		}
 
@@ -72,11 +77,26 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 			return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Status: http.StatusInternalServerError, Message: err.Error()})
 		}
 
+		var ctx = context.Background()
+		var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+		var API_KEY = os.Getenv("API_KEY")
+		var API_SECRET = os.Getenv("API_SECRET")
+
+		// Add your Cloudinary credentials ...
+		cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+
+		// Upload file to Cloudinary ...
+		resp, err := cld.Upload.Upload(ctx, filepath, uploader.UploadParams{Folder: "waysbeans"})
+
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
 		product := models.Product{
 			Name:        request.Name,
 			Description: request.Description,
 			Price:       request.Price,
-			Photo:       request.Photo,
+			Photo:       resp.SecureURL,
 			Stock:       request.Stock,
 		}
 
@@ -211,14 +231,4 @@ func convertResponseProduct(u models.Product) productdto.ProductResponse {
 		Photo:       u.Photo,
 		Stock:       u.Stock,
 	}
-}
-
-func convertResponseProducts(products []models.Product) []productdto.ProductResponse {
-	var responseProducts []productdto.ProductResponse
-
-	for _, product := range products {
-		responseProducts = append(responseProducts, convertResponseProduct(product))
-	}
-
-	return responseProducts
 }

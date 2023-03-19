@@ -26,7 +26,7 @@ export default function Transaction() {
                   {
                     item.products?.map((product, index) => (
                       index % 2 === 0 ? (
-                      <img src={`http://localhost:5000/uploads/${product.product_photo}`} style={{ width: "100%" }} alt="logo" />
+                      <img src={product.product_photo} style={{ width: "100%" }} alt="logo" />
                       ) : null
                     )) 
                   }
