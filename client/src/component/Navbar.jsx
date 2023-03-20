@@ -123,7 +123,7 @@ export default function Header() {
   
   useEffect(() => {
     const darkModePreference = localStorage.getItem('dark-mode-preference');
-    const body = document.querySelector('body');
+    const body = document.querySelector('*');
     if (darkModePreference === 'on') {
       body.classList.add('dark-mode');
     }
