@@ -32,14 +32,14 @@ export default function Header() {
   const [UserCarts, SetUserCarts] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // useEffect(() => {
-  //   // Redirect Auth but just when isLoading is false
-  //   if (!isLoading) {
-  //     if (state.isLogin === false) {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    // Redirect Auth but just when isLoading is false
+    if (!isLoading) {
+      if (state.isLogin === false) {
+        navigate("/");
+      }
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (localStorage.token) {
@@ -62,12 +62,12 @@ export default function Header() {
         type: "USER_SUCCESS",
         payload,
       });
-      // setIsLoading(false);
+      setIsLoading(false);
     } catch (error) {
       dispatch({
         type: "AUTH_ERROR",
       });
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
