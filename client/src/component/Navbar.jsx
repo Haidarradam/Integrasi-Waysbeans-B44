@@ -123,7 +123,7 @@ export default function Header() {
   
   useEffect(() => {
     const darkModePreference = localStorage.getItem('dark-mode-preference');
-    const body = document.querySelector('*');
+    const body = document.querySelector('body');
     if (darkModePreference === 'on') {
       body.classList.add('dark-mode');
     }
@@ -201,7 +201,7 @@ export default function Header() {
                 </Nav>
               )
             ) : (
-              <Nav className="ms-auto">
+              <Nav className="me-auto">
                 <Stack direction="horizontal" gap={3}>
                   <Button onClick={toggleDarkMode} style={{
                       backgroundColor: "#613D2B",
