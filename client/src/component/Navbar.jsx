@@ -113,6 +113,7 @@ export default function Header() {
     var body = document.querySelector('body');
     body.classList.toggle('dark-mode');
     saveDarkModePreference();
+    loadDarkModePreference();
   }
 
   function saveDarkModePreference() {
