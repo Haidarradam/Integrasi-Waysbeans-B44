@@ -14,7 +14,7 @@ body {
 }
 
 /* Dark Mode CSS */
-body.dark-mode {
+*.dark-mode {
   background-color: #181622;
   color: #fff;
 }
