@@ -211,7 +211,7 @@ export default function Header() {
                       paddingBottom: "1px",
                       border: "2px solid #613D2B",
                     }}
-                    size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'} Dark Mode</Button>
+                    size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'}</Button>
                   <Button
                     onClick={handleShowLogin}
                     variant="outline-dark"
