@@ -201,9 +201,9 @@ export default function Header() {
                 </Nav>
               )
             ) : (
-              <Nav className="me-auto">
+              <Nav className="ms-auto">
                 <Stack direction="horizontal" gap={3}>
-                  <Button onClick={toggleDarkMode} style={{
+                  <Button className="me-auto" onClick={toggleDarkMode} style={{
                       backgroundColor: "#613D2B",
                       paddingLeft: "15px",
                       paddingRight: "15px",
