@@ -30,6 +30,7 @@ export default function Header() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [UserCarts, SetUserCarts] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     // Redirect Auth but just when isLoading is false
@@ -110,30 +111,23 @@ export default function Header() {
 
   //DarkMode
   function toggleDarkMode() {
-    var body = document.querySelector('body');
-    body.classList.toggle('dark-mode');
-    saveDarkModePreference();
-    loadDarkModePreference();
-  }
-
-  function saveDarkModePreference() {
-    var body = document.querySelector('body');
-    if (body.classList.contains('dark-mode')) {
-      localStorage.setItem('dark-mode-preference', 'on');
-    } else {
+    setIsDarkMode(!isDarkMode);
+    if (isDarkMode) {
+      document.body.classList.remove('dark-mode');
       localStorage.setItem('dark-mode-preference', 'off');
+    } else {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('dark-mode-preference', 'on');
     }
   }
   
-  function loadDarkModePreference() {
-    var darkModePreference = localStorage.getItem('dark-mode-preference');
-    var body = document.querySelector('body');
+  useEffect(() => {
+    const darkModePreference = localStorage.getItem('dark-mode-preference');
+    const body = document.querySelector('body');
     if (darkModePreference === 'on') {
       body.classList.add('dark-mode');
     }
-  }
-  
-  loadDarkModePreference();
+  }, []);
   
   
 
@@ -209,7 +203,7 @@ export default function Header() {
             ) : (
               <Nav className="ms-auto">
                 <Stack direction="horizontal" gap={3}>
-                  <Button onclick={toggleDarkMode()} style={{
+                  <Button onClick={toggleDarkMode} style={{
                       backgroundColor: "#613D2B",
                       paddingLeft: "15px",
                       paddingRight: "15px",
@@ -217,7 +211,7 @@ export default function Header() {
                       paddingBottom: "1px",
                       border: "2px solid #613D2B",
                     }}
-                    size="sm">Dark Mode</Button>
+                    size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'} Dark Mode</Button>
                   <Button
                     onClick={handleShowLogin}
                     variant="outline-dark"
