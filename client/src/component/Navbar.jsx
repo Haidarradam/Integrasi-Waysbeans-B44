@@ -106,7 +106,7 @@ export default function Header() {
       showConfirmButton: false,
       timer: 1500,
     });
-    navigate("/");
+    navigate("/detailproduct/3");
   };
 
   //DarkMode
