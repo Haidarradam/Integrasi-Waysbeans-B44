@@ -21,6 +21,7 @@ import { UserContext } from "../context/userContext";
 import { API, setAuthToken } from "../config/api";
 import Swal from "sweetalert2";
 import { useQuery } from "react-query";
+import "../index.css";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -107,6 +108,34 @@ export default function Header() {
     navigate("/");
   };
 
+  //DarkMode
+  function toggleDarkMode() {
+    var body = document.querySelector('body');
+    body.classList.toggle('dark-mode');
+    saveDarkModePreference();
+  }
+
+  function saveDarkModePreference() {
+    var body = document.querySelector('body');
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('dark-mode-preference', 'on');
+    } else {
+      localStorage.setItem('dark-mode-preference', 'off');
+    }
+  }
+  
+  function loadDarkModePreference() {
+    var darkModePreference = localStorage.getItem('dark-mode-preference');
+    var body = document.querySelector('body');
+    if (darkModePreference === 'on') {
+      body.classList.add('dark-mode');
+    }
+  }
+  
+  loadDarkModePreference();
+  
+  
+
   return (
     <>
       <Navbar bg="light shadow -3" expand="lg">
@@ -179,6 +208,15 @@ export default function Header() {
             ) : (
               <Nav className="ms-auto">
                 <Stack direction="horizontal" gap={3}>
+                  <Button onclick={toggleDarkMode()} style={{
+                      backgroundColor: "#613D2B",
+                      paddingLeft: "15px",
+                      paddingRight: "15px",
+                      paddingTop: "1px",
+                      paddingBottom: "1px",
+                      border: "2px solid #613D2B",
+                    }}
+                    size="sm">Dark Mode</Button>
                   <Button
                     onClick={handleShowLogin}
                     variant="outline-dark"

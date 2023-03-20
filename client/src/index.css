@@ -13,7 +13,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark Mode CSS */
+body.dark-mode {
+  background-color: #222;
+  color: #fff;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
