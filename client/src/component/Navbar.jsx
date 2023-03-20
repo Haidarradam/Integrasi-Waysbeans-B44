@@ -203,7 +203,8 @@ export default function Header() {
             ) : (
               <Nav className="ms-auto">
                 <Stack direction="horizontal" gap={3}>
-                  <Button className="me-auto" onClick={toggleDarkMode} style={{
+                  <div className="justify-content-start">
+                  <Button onClick={toggleDarkMode} style={{
                       backgroundColor: "#613D2B",
                       paddingLeft: "15px",
                       paddingRight: "15px",
@@ -212,6 +213,7 @@ export default function Header() {
                       border: "2px solid #613D2B",
                     }}
                     size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'}</Button>
+                    </div>
                   <Button
                     onClick={handleShowLogin}
                     variant="outline-dark"
