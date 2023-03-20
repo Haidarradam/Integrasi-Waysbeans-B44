@@ -144,6 +144,15 @@ export default function Header() {
             {state.isLogin === true ? (
               state.user.is_admin === true ? (
                 <Nav className="ms-auto gap-3">
+                  <Button onClick={toggleDarkMode} style={{
+                      backgroundColor: "#613D2B",
+                      paddingLeft: "15px",
+                      paddingRight: "15px",
+                      paddingTop: "1px",
+                      paddingBottom: "1px",
+                      border: "2px solid #613D2B",
+                    }}
+                    size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'}</Button>
                   <NavDropdown align="end"
                     title={
                       <img src={Admin} width="40px" height="40px" alt="" />
@@ -172,6 +181,15 @@ export default function Header() {
                 </Nav>
               ) : (
                 <Nav className="ms-auto">
+                  <Button onClick={toggleDarkMode} style={{
+                      backgroundColor: "#613D2B",
+                      paddingLeft: "15px",
+                      paddingRight: "15px",
+                      paddingTop: "1px",
+                      paddingBottom: "1px",
+                      border: "2px solid #613D2B",
+                    }}
+                    size="sm"> {isDarkMode ? 'Light Mode' : 'Dark Mode'}</Button>
                   <NavLink to="/cart" className="position-relative d-inline-flex align-items-center">
                     <div className="me-3">
                       <img src={Cart} width="35px" height="32.26px" alt="" />
